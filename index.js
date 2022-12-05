@@ -1,22 +1,19 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
+
+const auth  = require('./routes/auth');
+const home  = require('./routes/home');
 
 app.use(express.static('public_resources'));
 
-app.get('/login', (req, res) => {
-    res.render('login.ejs')
-})
+const morgan = require('morgan')
+app.use('/auth', auth);
+app.use('/home', home); 
 
-app.get('/register', (req, res) => {
-    res.render('register.ejs')
-})
+//app.use(morgan('tiny'))
 
-app.get('/home', (req, res) => {
-    res.render('home.ejs')
-})
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
-app.all('/', (req, res) => {
-    res.render('home.ejs')
-})
 
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 3001);
